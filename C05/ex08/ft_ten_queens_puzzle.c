@@ -1,6 +1,6 @@
 #include <unistd.h>
 
-void	printSolution(int *solutions[3])
+void	print_solution(int solutions[10][3])
 {
 	int	i;
 	char c;
@@ -11,10 +11,11 @@ void	printSolution(int *solutions[3])
 		write(1, &c, 1);
 		c = '\n';
 		write(1, &c, 1);
+		i++;
 	}
 }
 
-int solution_is_valid(int *solutions[3], int row, int column, int posDiagIndex, int negDiagIndex)
+int solution_is_valid(int solutions[10][3], int row, int column, int posDiagIndex, int negDiagIndex)
 {
 	int	j;
 
@@ -30,7 +31,7 @@ int solution_is_valid(int *solutions[3], int row, int column, int posDiagIndex, 
 	return (0);
 }
 
-int	backtrack(int *solutions[3], int currentColIndex)
+int	backtrack(int solutions[10][3], int currentColIndex)
 {
 	int	i;
 	int	counter;
@@ -38,7 +39,7 @@ int	backtrack(int *solutions[3], int currentColIndex)
 	i = 0;
 	if (currentColIndex == 9)
 	{
-		printSolution(solutions);
+		print_solution(solutions);
 		return (1);
 	}
 	while (i + currentColIndex < 10)
@@ -60,16 +61,10 @@ int	ft_ten_queens_puzzle(void)
 	int	i;
 	int	counter;
 
-	i = 1;
-	while (i < 10)
-	{
-		solutions[i][0] = -1;
-		i++;
-	}
 	i = 0;
 	while (i < 10)
 	{
-		solutions[1][i, i, -i];
+		solutions[0][i, i, -i];
 		counter += backtrack(solutions, 1);
 		i++;
 	}
