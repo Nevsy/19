@@ -23,6 +23,45 @@ int	find_char(char c, char *str)
 	return (0);
 }
 
+int	count_words(char *str, char *charset)
+{
+	int	i;
+	int	j;
+
+	while (str[i])
+	{
+		while (str[i] && find_char(str[i], charset))
+			i++;
+		while (str[i] && !find_char(str[i], charset))
+			i++;
+		j++;
+	}
+	return (j);
+}
+
+char	*take_word(char	*str, char *charset, int index)
+{
+	int		i;
+	int		j;
+	char	*word;
+
+	i = index;
+	while (str[i] && !find_char(str[i++], charset))
+		j++;
+	if(!(word = malloc(j * sizeof(char) + 1)))
+		return (NULL);
+	i = index;
+	j = 0;
+	while (str[i] && !find_char(str[i], charset))
+	{
+		word[j] = str[i];
+		i++;
+		j++;
+	}
+	word[j] = '\0';
+	return (word);
+}
+
 #include <stdio.h>
 char	**ft_split(char *str, char *charset)
 {
@@ -31,27 +70,24 @@ char	**ft_split(char *str, char *charset)
 	int		k;
 	char	**deconstructed;
 
-	if (!(deconstructed = malloc(sizeof(char) * ft_strlen(str) + 100))) // il faudra moins que le strlen mais vsy flemme
+	deconstructed = malloc(sizeof(char) * ft_strlen(str) + 1);
+	if (!deconstructed) // il faudra moins que le strlen mais vsy flemme
 		return (NULL);
 	i = 0;
 	j = 0;
-	k = 0;
 	while (str[i])
 	{
-		if (find_char(str[i], charset))
-			continue;
-		else
+		while (str[i] && find_char(str[i], charset))
+			i++;
+		k = 0;
+		while (k <= ft_strlen(take_word(str, charset, i)))
 		{
-			while (str[i] && !find_char(str[i], charset))
-			{
-				printf("test\n");
-				fflush(stdout);
-				deconstructed[j][k++] = str[i++];
-			}
-			deconstructed[j][k] = '\0';
-			j++;
-			k = 0;
+			deconstructed[j][k] = take_word(str, charset, i)[k];
+			k++;
 		}
+		printf("%s", deconstructed[j]);
+		fflush(stdout);
+		j++;
 	}
 	return (deconstructed);
 }
