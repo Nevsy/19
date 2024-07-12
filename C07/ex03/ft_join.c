@@ -17,7 +17,19 @@ char	*ft_strcat(char *dest, char *src)
 	return (dest);
 }
 
-#include <stdio.h>
+void	cat_this_shit(int size, char **strs, char *sep, char *string)
+{
+	int	i;
+
+	i = 0;
+	while (i < size)
+	{
+		ft_strcat(string, strs[i]);
+		if (++i != size - 1)
+			ft_strcat(string, sep);
+	}
+}
+
 char	*ft_strjoin(int size, char **strs, char *sep)
 {
 	char	*string;
@@ -25,7 +37,8 @@ char	*ft_strjoin(int size, char **strs, char *sep)
 	int		j;
 	int		strs_size;
 
-	// Get size: go through all charac
+	strs_size = 0;
+	i = 0;
 	while (i < size)
 	{
 		j = 0;
@@ -33,20 +46,17 @@ char	*ft_strjoin(int size, char **strs, char *sep)
 			strs_size++;
 		i++;
 	}
-	printf("strs size: %d", strs_size);
 	j = 0;
-	while (sep[j])
+	while (sep[j] && size != 0)
 		j++;
-	string = malloc(sizeof(char) * strs_size + (size - 1) * j + 1);
-	while (i < size)
-	{
-		ft_strcat(string, strs[i]);
-		if (++i != size)
-			ft_strcat(string, sep);
-	}
+	if(!(string = malloc(sizeof(char) * (strs_size + (size - 1) * j + 1))))
+		return (NULL);
+	cat_this_shit(size, strs, sep, string);
+	string[strs_size] = '\0';
 	return (string);
 }
 
+#include <stdio.h>
 int	main(int argc, char *argv[])
 {
 	if (argc != 3)

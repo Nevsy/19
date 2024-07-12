@@ -10,7 +10,8 @@ int	ft_range(int **range, int min, int max)
 		*range = 0;
 		return (0);
 	}
-	ptr = malloc(sizeof(int) * (max - min));
+	if (!(ptr = malloc(sizeof(int) * (max - min))))
+		return (0);
 	*range = ptr;
 	if (!ptr)
 	{
