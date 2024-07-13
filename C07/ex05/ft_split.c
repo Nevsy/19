@@ -14,7 +14,6 @@ int	is_in_charset(char c, char *charset)
 	return (0);
 }
 
-#include <stdio.h>
 char	*get_word(char *str, char *charset, int index)
 {
 	int		i;
@@ -82,7 +81,7 @@ char	**ft_split(char *str, char *charset)
 	return (strs);
 }
 
-
+#include <stdio.h>
 int	main(void)
 {
 	char **strs = ft_split("   hell\tddd o\t world   ", " \t");
