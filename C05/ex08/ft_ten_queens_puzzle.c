@@ -1,78 +1,78 @@
+#include <stdio.h>
 #include <unistd.h>
 
-void	print_solution(int solutions[10][3])
+int	is_solution_valid(int solution[10], int index_added)
 {
 	int	i;
-	char c;
-
-	while (i < 10)
-	{
-		c = solutions[i][0] + '0';
-		write(1, &c, 1);
-		c = '\n';
-		write(1, &c, 1);
-		i++;
-	}
-}
-
-int solution_is_valid(int solutions[10][3], int row, int column, int posDiagIndex, int negDiagIndex)
-{
-	int	j;
-
-	j = 0;
-	while (j < column)
-	{
-		if (solutions[j][0] == row || solutions[j][1] == posDiagIndex || solutions[j][2] == negDiagIndex)
-		{
-			return (1);
-		}
-		j++;
-	}
-	return (0);
-}
-
-int	backtrack(int solutions[10][3], int currentColIndex)
-{
-	int	i;
-	int	counter;
+	int	diag_pos_index;
+	int	diag_neg_index;
 
 	i = 0;
-	if (currentColIndex == 9)
+	diag_pos_index = index_added + solution[index_added];
+	diag_neg_index = index_added - solution[index_added];
+	while (i < index_added)
 	{
-		print_solution(solutions);
-		return (1);
-	}
-	while (i + currentColIndex < 10)
-	{
-		if (solution_is_valid(solutions, i, currentColIndex, currentColIndex + i, currentColIndex - i) == 1)
-			continue;
-		solutions[currentColIndex + i][0] = i;
-		solutions[currentColIndex + i][1] = currentColIndex + i;
-		solutions[currentColIndex + i][2] = currentColIndex - i;
-		counter += backtrack(solutions, currentColIndex + 1);
+		if (solution[i] == solution[index_added]
+			|| i - solution[i] == diag_neg_index
+			|| i + solution[i] == diag_pos_index)
+		{
+			return (0);
+		}
 		i++;
 	}
-	return (counter);
+	return (1);
+}
+
+void	print_solution(int solution[10])
+{
+	int		i;
+	char	c;
+
+	i = 0;
+	while (i < 10)
+	{
+		c = solution[i] + '0';
+		write(1, &c, 1);
+		c = '\n';
+		if (i == 9)
+			write(1, &c, 1);
+		i++;
+	}
+}
+
+int	backtrack(int solution[10], int index)
+{
+	int	i;
+	int	count;
+
+	i = 0;
+	count = 0;
+	if (index == 10)
+	{
+		print_solution(solution);
+		return (1);
+	}
+	while (i < 10)
+	{
+		solution[index] = i;
+		if (is_solution_valid(solution, index))
+			count += backtrack(solution, index + 1);
+		i++;
+	}
+	return (count);
 }
 
 int	ft_ten_queens_puzzle(void)
 {
-	int	solutions[10][3]; // [[chosen: row, +diag, -diag], [], ..., []]
-	int	i;
-	int	counter;
+	int	solution[10];
+	int	count;
 
-	i = 0;
-	while (i < 10)
-	{
-		solutions[0][i, i, -i];
-		counter += backtrack(solutions, 1);
-		i++;
-	}
-	return (counter);
+	count = backtrack(solution, 0);
+	return (count);
 }
 
-#include <stdio.h>
 int	main(void)
 {
-	printf("\nresults: %d\n", ft_ten_queens_puzzle());
+	printf("amount of sols: %d", ft_ten_queens_puzzle());
+	return (0);
 }
