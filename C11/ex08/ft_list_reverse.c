@@ -19,5 +19,8 @@ int	ft_list_size(t_list *begin_list)
 
 void	ft_list_reverse(t_list **begin)
 {
-	
+	// flip arrows ...
+
+	// get everything in array
+	// make new one backwards ?
 }
