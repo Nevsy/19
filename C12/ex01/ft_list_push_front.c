@@ -9,7 +9,11 @@ void	ft_list_push_front(t_list **begin_list, void *data)
 
 	new_el = ft_create_elem(data);
 	begin_list_cpy = *begin_list;
-	if (begin_list_cpy)
-
+	if (!begin_list_cpy)
+	{
+		*begin_list = new_el; 
+		return ;
+	}
 	new_el->next = begin_list_cpy;
+	*begin_list = new_el;
 }
